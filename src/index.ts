@@ -1,1 +1,1 @@
-export * from "./HtnaPaginator";
+export * from "./paginator/HtnaPaginator";

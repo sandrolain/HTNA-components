@@ -13,6 +13,7 @@ export default [
       esModule: false,
       sourcemap: true
     },
+    // external: ["htna"],
     plugins: [
       del({
         targets: ["./dist/umd/*"]
@@ -38,6 +39,7 @@ export default [
         sourcemap: true
       }
     ],
+    // external: ["htna"],
     plugins: [
       del({
         targets: ["./dist/esm/*"]

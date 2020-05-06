@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+  </head>
+  <body>
+    <div id="cnt">
+      <htna-paginator id="pag" page="2" total-pages="10"></htna-paginator>
+    </div>
+    <script type="module">
+      import { HtnaPaginator } from "../dist/esm/index.js";
+
+      const $pag = document.querySelector("#pag");
+
+      $pag.addEventListener("change:page", (e) => {
+        console.log("e", e)
+      });
+      $pag.addEventListener("change:per-page", (e) => {
+        console.log("e", e)
+      });
+
+    </script>
+  </body>
+</html>
