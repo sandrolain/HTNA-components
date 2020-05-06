@@ -1,1 +1,2 @@
-# HTNA: Light custom elements library
+# HTNA Components
+**Components collection based on HTNA**
