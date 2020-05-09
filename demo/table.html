@@ -5,14 +5,40 @@
   </head>
   <body>
     <div id="cnt">
-      <htna-table id="tab">
+      <htna-table id="tab" sort="name[0]">
         <template>
-          <thead><tr></tr></thead>
+          <thead><tr><td>Firstname</td><td>Lastname</td><td>Tel</td><td>Email</td></tr></thead>
+          <tbody>
+            <tr>
+              <td>${"name[0]"}</td>
+              <td>${"name[1]"}</td>
+              <td>${"contacts.tel"}</td>
+              <td>${"contacts.email"}</td>
+              <td>${() => Math.random()}</td>
+            </tr>
+          </tbody>
         </template>
       </htna-table>
     </div>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Faker/3.1.0/faker.min.js"></script>
     <script type="module">
       import { HtnaTable } from "../dist/esm/index.js";
+
+      const $table = document.getElementById("tab");
+
+      const data = [];
+
+      for(let i = 0; i < 10; i++) {
+        data.push({
+          name: [faker.name.firstName(), faker.name.lastName()],
+          contacts: {
+            tel: faker.phone.phoneNumber(),
+            email: faker.internet.email(),
+          }
+        });
+      }
+
+      $table.data = data;
 
     </script>
   </body>
