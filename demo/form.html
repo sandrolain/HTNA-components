@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+  </head>
+  <body>
+    <div id="cnt">
+      <htna-number-range id="range" step="10" min="-200" max="200" value="0,100"></htna-number-range>
+    </div>
+    <script type="module">
+      import { HtnaNumberRange } from "../dist/esm/index.js";
+
+
+      const $range = document.getElementById("range");
+
+      $range.addEventListener("change", (e) => {
+        console.log($range.value);
+      })
+
+    </script>
+  </body>
+</html>

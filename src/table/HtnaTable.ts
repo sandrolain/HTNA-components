@@ -99,8 +99,6 @@ export const HtnaTable = define("htna-table", {
       renderFoot();
     };
 
-
-
     return {
       connectedCallback: (): void => {
         renderAll();
