@@ -39,6 +39,7 @@ export default [
         sourcemap: true
       }
     ],
+    // preserveModules: true,
     // external: ["htna"],
     plugins: [
       del({

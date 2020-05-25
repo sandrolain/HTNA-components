@@ -1,21 +1,43 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <style>
 
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 12px;
+        line-height: 1em;
+      }
+
+      *[value] {
+        outline: 1px dashed #CCCCCC;
+      }
+
+    </style>
   </head>
   <body>
     <div id="cnt">
       <htna-number-range id="range" step="10" min="-200" max="200" value="0,100"></htna-number-range>
+
+      <htna-date-range id="date-range" step="60" min="2020-05-01T00:00:00.000Z" max="2020-05-30T00:00:00.000Z"></htna-date-range>
+
     </div>
     <script type="module">
-      import { HtnaNumberRange } from "../dist/esm/index.js";
+      import { HtnaNumberRange, HtnaDateRange } from "../dist/esm/index.js";
 
 
       const $range = document.getElementById("range");
 
       $range.addEventListener("change", (e) => {
         console.log($range.value);
-      })
+      });
+
+
+      const $dateRange = document.getElementById("date-range");
+
+      $dateRange.addEventListener("change", (e) => {
+        console.log($dateRange.value);
+      });
 
     </script>
   </body>

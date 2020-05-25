@@ -1,7 +1,9 @@
-import { define, AttributeTypes } from "htna";
+import { create, AttributeTypes } from "htna";
+// TODO: from tools
 import { tpl, getDescendantProp } from "../commons/utils";
 
-export const HtnaTable = define("htna-table", {
+export const HtnaTable = create({
+  elementName: "htna-table",
   render: () => /*html*/`<table>
     <thead></thead>
     <tbody></tbody>
@@ -39,14 +41,16 @@ export const HtnaTable = define("htna-table", {
       property: true
     }
   },
-  controller: ({ shadow, light, attributes }) => {
+  controller: ({ shadow, element, attributes }) => {
 
     let tplFrag: DocumentFragment;
 
     const getTemplate = (): DocumentFragment => {
       if(!tplFrag) {
-        const tpl = light.$<HTMLTemplateElement>("template");
-        tplFrag = tpl.content.cloneNode(true) as DocumentFragment;
+        tplFrag = document.createDocumentFragment();
+        for(const child of Array.from(element.childNodes)) {
+          tplFrag.appendChild(child.cloneNode(true));
+        }
       }
       return tplFrag;
     };
@@ -108,6 +112,10 @@ export const HtnaTable = define("htna-table", {
         footer: renderFoot,
         data: renderBody,
         sort: renderBody
+      },
+      mutationObserverCallback: (): void => {
+        tplFrag = null;
+        renderAll();
       }
     };
   }

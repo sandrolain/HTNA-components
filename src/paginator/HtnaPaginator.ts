@@ -1,6 +1,41 @@
-import { define, AttributeTypes } from "htna";
+import { create, AttributeTypes } from "htna";
 
-export const HtnaPaginator = define("htna-paginator", {
+
+// THX to https://github.com/aralroca/js-paging
+function pagesBadges ({ currentPage, pages, numBadges = 5 }: { currentPage: number; pages: number; numBadges?: number }): number[]  {
+  const maxBadgesSide = numBadges - 2;
+
+  // Without separators case
+  // ex: [1, 2, 3, 4, 5]
+  if(pages <= numBadges) {
+    return Array.from({ length: pages }).map((v, i) => i + 1);
+  }
+
+  const sideBadges = Array.from({ length: numBadges - 1 });
+
+  // With a separator at the end case
+  // ex: [1, 2, 3, 4, null, 49]
+  if(currentPage <= maxBadgesSide) {
+    return [...sideBadges.map((v, i) => i + 1), null, pages];
+  }
+
+  // With a separator at the beginning case
+  // ex: [1, null, 46, 47, 48, 49]
+  if(currentPage > pages - maxBadgesSide) {
+    return [1, null, ...sideBadges.map((v, i) => pages - i).reverse()];
+  }
+
+  // In the middle (separator left + right) case
+  // ex: [1, null, 26, 27, 28, null, 49]
+  sideBadges.pop();
+  const curr = Math.floor(sideBadges.length / 2);
+  const center = sideBadges.map((v, i) => currentPage - curr + i);
+
+  return [1, null, ...center, null, pages];
+}
+
+export const HtnaPaginator = create({
+  elementName: "htna-paginator",
   render: () => /*html*/`<div id="cnt">
     <button id="first"></button>
     <button id="prev"></button>
@@ -35,6 +70,12 @@ export const HtnaPaginator = define("htna-paginator", {
       observed: true,
       property: true,
       value: 10
+    },
+    "max-pages": {
+      type: Number,
+      observed: true,
+      property: true,
+      value: 5
     },
     "per-page": {
       type: Number,
@@ -104,11 +145,21 @@ export const HtnaPaginator = define("htna-paginator", {
     };
 
     const generatePages = (): void => {
+      const maxPages       = attributes.get("max-pages") || 0;
       const page           = attributes.get("page") || 1;
       const totalPages     = attributes.get("total-pages") || 1;
       const html: string[] = [];
-      for(let i = 1; i <= totalPages; i++) {
-        html.push(`<button class="page${page === i ? " active" : ""}" data-page="${i}">${i}</button>`);
+      const badges         = pagesBadges({
+        currentPage: page,
+        pages: totalPages,
+        numBadges: maxPages
+      });
+      for(const num of badges) {
+        if(num === null) {
+          html.push(`<span class="spacer">…</span>`);
+        } else {
+          html.push(`<button class="page${page === num ? " active" : ""}" data-page="${num}">${num}</button>`);
+        }
       }
       shadow.$("#pages").innerHTML = html.join("");
       light.dispatch("change:page", {
@@ -152,6 +203,7 @@ export const HtnaPaginator = define("htna-paginator", {
       attributeChangedCallback: {
         "page": generatePages,
         "total-pages": generatePages,
+        "max-pages": generatePages,
         "first-lbl": updateLabels,
         "prev-lbl": updateLabels,
         "next-lbl": updateLabels,

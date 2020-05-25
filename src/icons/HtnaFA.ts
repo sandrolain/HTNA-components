@@ -1,8 +1,9 @@
-import { define, AttributeTypes } from "htna";
+import { create, AttributeTypes } from "htna";
 
 let globalBasePath: string = ".";
 
-export const HtnaFA = define("htna-fa", {
+export const HtnaFA = create({
+  elementName: "htna-fa",
   render: () => /*html*/`<i class=""></i>`,
   style: /*css*/`
 
@@ -22,15 +23,15 @@ export const HtnaFA = define("htna-fa", {
     }
   },
   // TODO: styles access object required
-  controller: ({ shadow, light, attribute, styles }) => {
+  controller: ({ attributes }) => {
 
     // TODO: listen change of global assets base-path overrided by local base-path
     const updateFAImport = (): void => {
       const basePath = attributes.get("path") || globalBasePath;
       const faPath = `${basePath}/fa/`;
-      styles.set(`
-@import url("${faPath}");
-      `);
+//       styles.set(`
+// @import url("${faPath}");
+//       `);
     };
 
     return {

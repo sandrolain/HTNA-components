@@ -1,27 +1,37 @@
-import { define, AttributeTypes } from "htna";
+import { create, AttributeTypes } from "htna";
 
-export const HtnaNumberRange = define("htna-number-range", {
+export const HtnaNumberRange = create({
+  elementName: "htna-number-range",
   render: () => /*html*/`<div id="range">
 <div class="range-row"><label for="range-from"></label><input type="range" id="range-from" min="0" max="100" /><output for="range-from"></output></div>
 <div class="range-row"><label for="range-to"></label><input type="range" id="range-to" min="0" max="100" /><output for="range-to"></output></div>
 </div>`,
   style: /*css*/`
+:host {
+  display: inline-block;
+  --line-height: 1.5em;
+}
 #range {
-  height: 1em;
   position: relative;
 }
 .range-row {
   width: 100%;
   display: flex;
+  align-items: center;
+  line-height: var(--line-height);
+  height: var(--line-height);
 }
 label {
   width: 50px;
+  height: 100%;
 }
 input {
   flex: 1;
+  height: 100%;
 }
 output {
   width: 50px;
+  height: 100%;
   text-align: right;
 }
   `,
@@ -42,7 +52,7 @@ output {
       type: AttributeTypes.Number,
       observed: true,
       property: true,
-      value: 0
+      value: 100
     },
     "value": {
       type: AttributeTypes.CSVNumber,
@@ -159,3 +169,5 @@ output {
     };
   }
 });
+
+export default HtnaNumberRange;
