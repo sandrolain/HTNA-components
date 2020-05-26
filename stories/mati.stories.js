@@ -13,7 +13,16 @@ export default {
 
 export const MatiButton = () => {
   const button = document.createElement("htna-mati-button");
-  button.appendChild(document.createTextNode("PINK"));
+  button.appendChild(document.createTextNode("P"));
+  button.addEventListener("click", action("click"));
+  return button;
+};
+
+
+export const MatiButtonBlue = () => {
+  const button = document.createElement("htna-mati-button");
+  button.setAttribute("color", "#0000FF");
+  button.appendChild(document.createTextNode("BLUE"));
   button.addEventListener("click", action("click"));
   return button;
 };

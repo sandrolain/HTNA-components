@@ -4,6 +4,9 @@ export const HtnaMatiButton = create({
   elementName: "htna-mati-button",
   render: () => /*html*/`<button type="button"><span><slot></slot></span></button>`,
   style: /*css*/`
+  :host {
+    display: inline-block;
+  }
   button {
     position: relative;
     padding: 1em;
@@ -17,6 +20,8 @@ export const HtnaMatiButton = create({
     border: none;
     font-weight: bold;
     line-height: 1em;
+    min-width: 3em;
+    text-align: center;
   }
   button::before {
     content: '';
@@ -27,7 +32,7 @@ export const HtnaMatiButton = create({
     left: 1px;
     top: 60%;
     border-radius: 0.2em 0.2em 0.9em 0.9em;
-    background-image: linear-gradient(0deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1));
+    background-image: linear-gradient(0deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.2));
     filter: blur(0.2em);
   }
   button::after {
@@ -39,11 +44,11 @@ export const HtnaMatiButton = create({
     left: 1px;
     bottom: 50%;
     border-radius: calc(1em - 1px) calc(1em - 1px) 0.2em 0.2em;
-    background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.1));
+    background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.2));
   }
 
   button:active {
-    filter: brightness(120%) contrast(120%)
+    filter: brightness(110%) contrast(110%)
   }
   `,
   attributesSchema: {
