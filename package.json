@@ -19,8 +19,8 @@
     "test:coverage:open": "jest --runInBand --coverage && open ./coverage/lcov-report/index.html",
     "docs:build": "npx typedoc --plugin typedoc-plugin-no-inherit --out ./typedocs ./src",
     "docs:serve": "npm run docs:build && npx open-cli ./typedocs/index.html",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook -c .storybook -o ./docs/storybook"
+    "storybook": "start-storybook -s ./stories/static -p 6006",
+    "build-storybook": "build-storybook -s ./stories/static -c .storybook -o ./docs/storybook"
   },
   "repository": {
     "type": "git",

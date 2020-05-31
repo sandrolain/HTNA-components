@@ -57,19 +57,24 @@ export const HtnaMatiButton = create({
       observed: true,
       property: true,
       value: "#FF0099"
+    },
+    "size": {
+      type: String,
+      observed: true,
+      property: true,
+      value: "20px"
     }
   },
   controller: ({ shadow, attributes }) => {
     const $btn = shadow.$("button");
     const updateButtonColor = (): void => {
       $btn.style.backgroundColor = attributes.get("color");
+      $btn.style.fontSize = attributes.get("size");
     };
 
     return {
       connectedCallback: updateButtonColor,
-      attributeChangedCallback: {
-        "color": updateButtonColor
-      }
+      attributeChangedCallback: updateButtonColor
     };
   }
 });
