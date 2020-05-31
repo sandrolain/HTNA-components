@@ -1,0 +1,22 @@
+<b>Styled &lt;b&gt; element included inside ShadowRoot!</b>
+<br/>
+<br/>
+<button>Click Me</button>
+<style>
+  b {
+    color: #FF0000;
+  }
+  b.foo {
+    color: #0000FF;
+  }
+</style>
+<script type="text/javascript">
+
+const b = shadowRoot.querySelector("b");
+const btn = shadowRoot.querySelector("button");
+btn.addEventListener("click", () => {
+  b.classList.toggle("foo");
+});
+
+
+</script>
