@@ -9,6 +9,7 @@ export default {
 export const Include = () => {
   const $f = document.createDocumentFragment();
   const inc = document.createElement("htna-include");
+  inc.setAttribute("data-foo", "bar");
   inc.setAttribute("src", "./inclusion-1.html");
   $f.appendChild(inc);
   const btn = document.createElement("button");
