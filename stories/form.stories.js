@@ -14,12 +14,14 @@ export default {
 
 export const NumberRange = () => {
   const range = document.createElement("htna-number-range");
+  range.innerHTML = `<span slot="from">FROM</span><span slot="to">TO</span>`;
   range.addEventListener("change", action("change"));
   return range;
 };
 
 export const DateRange = () => {
   const range = document.createElement("htna-date-range");
+  range.innerHTML = `<span slot="from">FROM</span><span slot="to">TO</span>`;
   range.addEventListener("change", action("change"));
   return range;
 };
