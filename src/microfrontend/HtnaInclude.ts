@@ -61,13 +61,12 @@ export const HtnaInclude = create({
           }
           shadow.append($f);
 
-          //  Extract element dataset as data arguments for inclusion scripts
-          const data: Record<string, any> = {};
-          for(const key in element.dataset) {
-            data[key] = element.dataset[key];
-          }
-
           if(scripts.length > 0) {
+            //  Extract element dataset as data arguments for inclusion scripts
+            const data: Record<string, any> = {};
+            for(const key in element.dataset) {
+              data[key] = element.dataset[key];
+            }
             const fn = new Function("element", "shadowRoot", "dataset", scripts.join("\n\n"));
             fn(light.node, shadow.node, data);
           }
