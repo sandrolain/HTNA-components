@@ -3,8 +3,8 @@ import { create, AttributeTypes } from "htna";
 export const HtnaNumberRange = create({
   elementName: "htna-number-range",
   render: () => /*html*/`<div id="range">
-<div class="range-row"><label for="range-from"></label><input type="range" id="range-from" min="0" max="100" /><output for="range-from"></output></div>
-<div class="range-row"><label for="range-to"></label><input type="range" id="range-to" min="0" max="100" /><output for="range-to"></output></div>
+<div class="range-row"><label for="range-from"><slot name="from"></slot></label><input type="range" id="range-from" min="0" max="100" /><output for="range-from"></output></div>
+<div class="range-row"><label for="range-to"><slot name="to"></slot></label><input type="range" id="range-to" min="0" max="100" /><output for="range-to"></output></div>
 </div>`,
   style: /*css*/`
 :host {
@@ -59,18 +59,6 @@ output {
       observed: true,
       property: true,
       value: [0, 0]
-    },
-    "label-from": {
-      type: AttributeTypes.String,
-      observed: true,
-      property: true,
-      value: "FROM"
-    },
-    "label-to": {
-      type: AttributeTypes.String,
-      observed: true,
-      property: true,
-      value: "TO"
     }
   },
   controller: ({ light, shadow, attributes }) => {
@@ -79,8 +67,6 @@ output {
     const $to         = shadow.$<HTMLInputElement>("#range-to");
     const $fromOutput = shadow.$<HTMLOutputElement>("output[for=\"range-from\"");
     const $toOutput   = shadow.$<HTMLOutputElement>("output[for=\"range-to\"");
-    const $fromLabel  = shadow.$<HTMLLabelElement>("label[for=\"range-from\"");
-    const $toLabel    = shadow.$<HTMLLabelElement>("label[for=\"range-to\"");
 
     const updateValue = function (source: string = "from"): void {
       const value     = attributes.get("value") as [number, number];
@@ -144,16 +130,10 @@ output {
       updateValue("to");
     });
 
-    const updateLabel = (): void => {
-      $fromLabel.innerText = attributes.get("label-from");
-      $toLabel.innerText   = attributes.get("label-to");
-    };
-
     return {
       connectedCallback: (): void => {
         setNewValue();
         updateAttributes();
-        updateLabel();
       },
       attributeChangedCallback: {
         "step": updateAttributes,
@@ -162,9 +142,7 @@ output {
         "value": (): void => {
           setNewValue();
           updateValue();
-        },
-        "label-from": updateLabel,
-        "label-frtoom": updateLabel
+        }
       }
     };
   }

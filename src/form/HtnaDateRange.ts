@@ -15,12 +15,12 @@ export const HtnaDateRange = create({
   elementName: "htna-date-range",
   render: () => /*html*/`<div id="range">
 <div class="row" id="from">
-  <label for="from"></label>
+  <label for="from"><slot name="from"></slot></label>
   <div class="row-date"><input id="from-date" type="date" placeholder="YYYY-MM-DD" pattern="^[0-9]{4}-(0[1-9]|1[0-2])-([0-2][0-9]|3[0-1])$" id="from-date-fld" /></div>
   <div class="row-time"><input id="from-time" type="time" placeholder="HH:MM" pattern="^[0-2][0-9]:[0-5][0-9]$" id="from-time-fld" /></div>
 </div>
 <div class="row" id="to">
-  <label for="to"></label>
+  <label for="to"><slot name="to"></slot></label>
   <div class="row-date"><input id="to-date" type="date" placeholder="YYYY-MM-DD" pattern="^[0-9]{4}-(0[1-9]|1[0-2])-([0-2][0-9]|3[0-1])$" id="from-date-fld" /></div>
   <div class="row-time"><input id="to-time" type="time" placeholder="HH:MM" pattern="^[0-2][0-9]:[0-5][0-9]$" id="from-time-fld" /></div>
 </div>
@@ -65,18 +65,6 @@ output {
       observed: true,
       property: true,
       value: [new Date(), new Date()]
-    },
-    "label-from": {
-      type: AttributeTypes.String,
-      observed: true,
-      property: true,
-      value: "FROM"
-    },
-    "label-to": {
-      type: AttributeTypes.String,
-      observed: true,
-      property: true,
-      value: "TO"
     }
   },
   controller: ({ light, shadow, attributes }) => {
@@ -85,8 +73,6 @@ output {
     const $fromTime  = shadow.$<HTMLInputElement>("#from-time");
     const $toDate    = shadow.$<HTMLInputElement>("#to-date");
     const $toTime    = shadow.$<HTMLInputElement>("#to-time");
-    const $fromLabel = shadow.$<HTMLLabelElement>("label[for=\"from\"");
-    const $toLabel   = shadow.$<HTMLLabelElement>("label[for=\"to\"");
 
     const updateValue = function (source: string = "from"): void {
       const value         = attributes.get("value") as [Date, Date];
@@ -156,16 +142,10 @@ output {
       updateValue("to");
     });
 
-    const updateLabel = (): void => {
-      $fromLabel.innerText = attributes.get("label-from");
-      $toLabel.innerText   = attributes.get("label-to");
-    };
-
     return {
       connectedCallback: (): void => {
         setNewValue();
         updateAttributes();
-        updateLabel();
       },
       attributeChangedCallback: {
         "step": updateAttributes,
@@ -174,9 +154,7 @@ output {
         "value": (): void => {
           setNewValue();
           updateValue();
-        },
-        "label-from": updateLabel,
-        "label-to": updateLabel
+        }
       }
     };
   }
