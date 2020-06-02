@@ -47,7 +47,9 @@ export const HtnaMatiButton = create({
     border-radius: calc(0.5em - 1px) calc(0.5em - 1px) 0.2em 0.2em;
     background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.2));
   }
-
+  button:focus {
+    outline: none;
+  }
   button:active {
     filter: brightness(110%) contrast(110%);
     box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.5), 0px 2px 4px rgba(0, 0, 0, 0.2);

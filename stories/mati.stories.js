@@ -1,7 +1,11 @@
 import { action } from "@storybook/addon-actions";
 import HtnaMatiButton from "../src/mati/HtnaMatiButton.ts";
 
-HtnaMatiButton.register();
+try {
+  HtnaMatiButton.register();
+} catch(e) {
+  window.location.reload();
+}
 
 export default {
   title: "Mati",
