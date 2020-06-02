@@ -2,7 +2,7 @@ import { create } from "htna";
 
 export const HtnaMatiButton = create({
   elementName: "htna-mati-button",
-  render: () => /*html*/`<button type="button"><span><slot></slot></span></button>`,
+  render: () => /*html*/`<button type="button" part="button"><span><slot></slot></span></button>`,
   style: /*css*/`
   :host {
     display: inline-block;
