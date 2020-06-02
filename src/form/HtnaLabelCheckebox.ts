@@ -1,7 +1,7 @@
-import { create, AttributeTypes, DefineConfig } from "htna";
+import { create, AttributeTypes, HTNAElementConfig } from "htna";
 
 
-const definition: DefineConfig = {
+const definition: HTNAElementConfig = {
   elementName: "htna-label-checkbox",
   formInput: "checkbox",
   mode: "open",

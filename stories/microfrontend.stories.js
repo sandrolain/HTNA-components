@@ -1,6 +1,10 @@
 import HtnaInclude from "../src/microfrontend/HtnaInclude.ts";
 
-HtnaInclude.register();
+try {
+  HtnaInclude.register();
+} catch(e) {
+  window.location.reload();
+}
 
 export default {
   title: "MicroFrontend"
@@ -9,6 +13,7 @@ export default {
 export const Include = () => {
   const $f = document.createDocumentFragment();
   const inc = document.createElement("htna-include");
+  inc.allowScript = true;
   inc.setAttribute("data-foo", "bar");
   inc.setAttribute("src", "./inclusion-1.html");
   $f.appendChild(inc);

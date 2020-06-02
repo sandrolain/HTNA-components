@@ -33,6 +33,16 @@ export const HtnaInclude = create({
       observed: true,
       property: true,
       value: ""
+    },
+    "allow-script": {
+      type: Boolean,
+      property: true,
+      value: false
+    },
+    "disable-cache": {
+      type: Boolean,
+      property: true,
+      value: false
     }
   },
   controller: ({ element, light, shadow, attributes }) => {
@@ -44,7 +54,9 @@ export const HtnaInclude = create({
           latestSrc = newSrc;
           shadow.empty();
 
-          const html = await HtnaIncludeCache.getSourceFromCache(newSrc);
+          const html = attributes.get("disable-cache")
+            ? await HtnaIncludeCache.fetchSource(newSrc)
+            : await HtnaIncludeCache.getSourceFromCache(newSrc);
 
           const div = document.createElement("div");
           div.innerHTML = html;
@@ -61,7 +73,7 @@ export const HtnaInclude = create({
           }
           shadow.append($f);
 
-          if(scripts.length > 0) {
+          if(attributes.get("allow-script") && scripts.length > 0) {
             //  Extract element dataset as data arguments for inclusion scripts
             const data: Record<string, any> = {};
             for(const key in element.dataset) {

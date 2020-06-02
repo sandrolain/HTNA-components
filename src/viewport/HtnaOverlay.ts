@@ -33,6 +33,10 @@ export const HtnaOverlay = create({
       $overlay.style.backgroundColor = attributes.get("background") || "transparent";
     };
 
+    light.on(element, "scroll", (e: Event): void => {
+      e.stopPropagation();
+    });
+
     light.on(element, "click", (e): void => {
       if(e.target === $overlay) {
         light.dispatch("dismiss");

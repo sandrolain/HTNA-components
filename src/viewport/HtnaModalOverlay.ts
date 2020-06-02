@@ -53,6 +53,10 @@ export const HtnaModalOverlay = create({
       $cnt.style.padding = attributes.get("padding");
     };
 
+    light.on(element, "scroll", (e: Event): void => {
+      e.stopPropagation();
+    });
+
     light.on(element, "click", (e): void => {
       if(e.target === element) {
         light.dispatch("dismiss");
