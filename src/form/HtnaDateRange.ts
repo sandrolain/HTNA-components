@@ -10,7 +10,6 @@ setTime(defaultMin, [0, 0, 0, 0]);
 setDate(defaultMax, [2999, 12, 31]);
 setTime(defaultMax, [23, 59, 59, 999]);
 
-
 export const HtnaDateRange = create({
   elementName: "htna-date-range",
   render: () => /*html*/`<div id="range">

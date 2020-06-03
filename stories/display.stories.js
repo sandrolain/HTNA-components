@@ -58,11 +58,16 @@ export const Toast = () => {
   `;
   $f.appendChild(position);
 
-  const btn = document.createElement("toast");
+  const btn = document.createElement("button");
   btn.innerText = "Show";
   btn.addEventListener("click", () => {
     const toast = document.createElement("htna-toast");
     toast.setAttribute("position", position.value);
+    toast.setAttribute("open-style-from", "transform: scale(0)");
+    toast.setAttribute("open-style-to", "transform: scale(1)");
+    toast.setAttribute("close-style-from", "transform: scale(1)");
+    toast.setAttribute("close-style-to", "transform: scale(0)");
+    toast.setAttribute("autoclose", "3000");
     toast.innerHTML = "Hello World!";
     btn.parentNode.appendChild(toast);
     toast.open();

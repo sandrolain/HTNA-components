@@ -1,20 +1,5 @@
 import { HTNAElement, HTNAElementConfig } from "htna";
-import { removeNode, setStyle } from "htna-tools";
-
-function animateTo (node: Element, style: Keyframe[] | PropertyIndexedKeyframes, options: KeyframeEffectOptions = {
-  duration: 300,
-  easing: "ease",
-  iterations: 1,
-  direction: "normal",
-  fill: "forwards"
-}, onFinish?: EventListenerOrEventListenerObject): Animation {
-  const animation = node.animate(style, options);
-  // animation.commitStyles();
-  if(onFinish) {
-    animation.addEventListener("finish", onFinish);
-  }
-  return animation;
-}
+import { removeNode, setStyle, parsePropertiesString, animateTo } from "htna-tools";
 
 export class HtnaToast extends HTNAElement {
   static config: HTNAElementConfig = {
@@ -25,7 +10,6 @@ export class HtnaToast extends HTNAElement {
   display: block;
   position: fixed;
   visibility: hidden;
-  opacity: 0;
 }
     `,
     attributesSchema: {
@@ -39,6 +23,22 @@ export class HtnaToast extends HTNAElement {
         type: String,
         property: true,
         value: "top-right"
+      },
+      "open-style-from": {
+        type: String,
+        property: true
+      },
+      "open-style-to": {
+        type: String,
+        property: true
+      },
+      "close-style-from": {
+        type: String,
+        property: true
+      },
+      "close-style-to": {
+        type: String,
+        property: true
       }
     },
     controller: ({ element, light, attributes }) => {
@@ -65,7 +65,6 @@ export class HtnaToast extends HTNAElement {
         case "top-center":
           style.top = "0";
           style.left = `calc(50% - (${Math.round(rect.width)}px / 2))`;
-          console.log("HtnaToast -> style", style)
           break;
         case "bottom-left":
           style.bottom = "0";
@@ -77,16 +76,26 @@ export class HtnaToast extends HTNAElement {
           break;
         case "bottom-center":
           style.bottom = "0";
-          style.left = `calc(50% - (${rect.width} / 2))`;
+          style.left = `calc(50% - (${Math.round(rect.width)}px / 2))`;
           break;
         }
 
+        const animationStyles: Keyframe[] = [];
+
+        const openStyleTo = attributes.get("open-style-to");
+        if(openStyleTo) {
+          const openStyleFrom = attributes.get("open-style-from");
+          if(openStyleFrom) {
+            animationStyles.push(parsePropertiesString(openStyleFrom));
+          }
+          animationStyles.push(parsePropertiesString(openStyleTo));
+        } else {
+          animationStyles.push({ opacity: 0 });
+          animationStyles.push({ opacity: 1 });
+        }
+
         setStyle(element, style);
-        animateTo(element, [{
-          opacity: 0
-        }, {
-          opacity: 1
-        }]);
+        animateTo(element, animationStyles);
       };
 
       const open = (): void => {
@@ -95,8 +104,23 @@ export class HtnaToast extends HTNAElement {
       };
 
       const close = (): void => {
-        element.style.visibility = "hidden";
-        removeNode(element);
+        const animationStyles: Keyframe[] = [];
+
+        const closeStyleTo = attributes.get("close-style-to");
+        if(closeStyleTo) {
+          const closeStyleFrom = attributes.get("close-style-from");
+          if(closeStyleFrom) {
+            animationStyles.push(parsePropertiesString(closeStyleFrom));
+          }
+          animationStyles.push(parsePropertiesString(closeStyleTo));
+        } else {
+          animationStyles.push({ opacity: 1 });
+          animationStyles.push({ opacity: 0 });
+        }
+
+        animateTo(element, animationStyles, undefined, () => {
+          removeNode(element);
+        });
       };
 
       let autocloseTO: number;
