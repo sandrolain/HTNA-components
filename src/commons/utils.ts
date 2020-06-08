@@ -1,3 +1,62 @@
+import { getPositionRespectTarget } from "htna-tools/dist/esm/dom";
+
+export interface PositionalTarget {
+  nodeX: number;
+  nodeXOffset: number;
+  nodeY: number;
+  nodeYOffset: number;
+  target: string;
+  targetX: number;
+  targetXOffset: number;
+  targetY: number;
+  targetYOffset: number;
+}
+
+// TODO: add offset
+
+export function parsePositionalTarget (value: string): PositionalTarget | false {
+  const reg = /^\s*(?:([0-9.]+([+-][0-9.]+)?)\s*:\s*([0-9.]+([+-][0-9.]+)?)\s+)?([^\s0-9][^\s]+)(?:\s+([0-9.]+([+-][0-9.]+)?)\s*:\s*([0-9.]+([+-][0-9.]+)?))?\s*$/i;
+  const match = value.match(reg);
+  if(match) {
+    return {
+      nodeX: parseFloat(match[1] || "0"),
+      nodeXOffset: parseFloat(match[2] || "0"),
+      nodeY: parseFloat(match[3] || "0"),
+      nodeYOffset: parseFloat(match[4] || "0"),
+      target: match[5],
+      targetX: parseFloat(match[6] || "0"),
+      targetXOffset: parseFloat(match[7] || "0"),
+      targetY: parseFloat(match[8] || "0"),
+      targetYOffset: parseFloat(match[9] || "0")
+    };
+  }
+  return false;
+}
+
+
+export function applyPositionalTarget (node: HTMLElement, value: string, preventExitoOfScreen: boolean = false): boolean {
+  const posInfo = parsePositionalTarget(value);
+  if(posInfo) {
+    const target = document.getElementById(posInfo.target);
+    if(target) {
+      const pos = getPositionRespectTarget(node, posInfo.nodeX, posInfo.nodeY, target, posInfo.targetX, posInfo.targetY);
+      let left  = pos.left - posInfo.nodeXOffset + posInfo.targetXOffset;
+      let top   = pos.top - posInfo.nodeYOffset + posInfo.targetYOffset;
+      if(preventExitoOfScreen) {
+        left = Math.max(0, Math.min(left, (document.documentElement.clientWidth - pos.width)));
+        top  = Math.max(0, Math.min(top, (document.documentElement.clientHeight - pos.height)));
+      }
+      node.style.left = `${Math.round(left)}px`;
+      node.style.top  = `${Math.round(top)}px`;
+      return true;
+    }
+  }
+  return false;
+}
+
+
+
+
 export function htmlEntitiesDecode (value: string): string {
   const textarea = document.createElement("textarea");
   textarea.innerHTML = value;
