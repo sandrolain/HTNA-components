@@ -13,7 +13,7 @@ export class HtnaToast extends HTNAElement {
 }
     `,
     attributesSchema: {
-      "autoclose": {
+      "autohide": {
         type: Number,
         observed: true,
         property: true,
@@ -24,19 +24,19 @@ export class HtnaToast extends HTNAElement {
         property: true,
         value: "top-right"
       },
-      "open-style-from": {
+      "show-style-from": {
         type: String,
         property: true
       },
-      "open-style-to": {
+      "show-style-to": {
         type: String,
         property: true
       },
-      "close-style-from": {
+      "hide-style-from": {
         type: String,
         property: true
       },
-      "close-style-to": {
+      "hide-style-to": {
         type: String,
         property: true
       }
@@ -82,13 +82,13 @@ export class HtnaToast extends HTNAElement {
 
         const animationStyles: Keyframe[] = [];
 
-        const openStyleTo = attributes.get("open-style-to");
-        if(openStyleTo) {
-          const openStyleFrom = attributes.get("open-style-from");
-          if(openStyleFrom) {
-            animationStyles.push(parsePropertiesString(openStyleFrom));
+        const showStyleTo = attributes.get("show-style-to");
+        if(showStyleTo) {
+          const showStyleFrom = attributes.get("show-style-from");
+          if(showStyleFrom) {
+            animationStyles.push(parsePropertiesString(showStyleFrom));
           }
-          animationStyles.push(parsePropertiesString(openStyleTo));
+          animationStyles.push(parsePropertiesString(showStyleTo));
         } else {
           animationStyles.push({ opacity: 0 });
           animationStyles.push({ opacity: 1 });
@@ -98,21 +98,21 @@ export class HtnaToast extends HTNAElement {
         animateTo(element, animationStyles);
       };
 
-      const open = (): void => {
+      const show = (): void => {
         adjustPosition();
         element.style.visibility = "visible";
       };
 
-      const close = (): void => {
+      const hide = (): void => {
         const animationStyles: Keyframe[] = [];
 
-        const closeStyleTo = attributes.get("close-style-to");
-        if(closeStyleTo) {
-          const closeStyleFrom = attributes.get("close-style-from");
-          if(closeStyleFrom) {
-            animationStyles.push(parsePropertiesString(closeStyleFrom));
+        const hideStyleTo = attributes.get("hide-style-to");
+        if(hideStyleTo) {
+          const hideStyleFrom = attributes.get("hide-style-from");
+          if(hideStyleFrom) {
+            animationStyles.push(parsePropertiesString(hideStyleFrom));
           }
-          animationStyles.push(parsePropertiesString(closeStyleTo));
+          animationStyles.push(parsePropertiesString(hideStyleTo));
         } else {
           animationStyles.push({ opacity: 1 });
           animationStyles.push({ opacity: 0 });
@@ -123,38 +123,38 @@ export class HtnaToast extends HTNAElement {
         });
       };
 
-      let autocloseTO: number;
-      const cancelAutoclose = (): void => {
-        if(autocloseTO) {
-          window.clearTimeout(autocloseTO);
-          autocloseTO = null;
+      let autohideTO: number;
+      const cancelAutohide = (): void => {
+        if(autohideTO) {
+          window.clearTimeout(autohideTO);
+          autohideTO = null;
         }
       };
-      const updateAutoclose = (): void => {
-        cancelAutoclose();
-        const timeout = attributes.get("autoclose");
+      const updateAutohide = (): void => {
+        cancelAutohide();
+        const timeout = attributes.get("autohide");
         if(timeout > 0) {
-          autocloseTO = window.setTimeout(() => close(), timeout);
+          autohideTO = window.setTimeout(() => hide(), timeout);
         }
       };
 
       light.on(element, "click", () => {
-        cancelAutoclose();
-        close();
+        cancelAutohide();
+        hide();
       });
 
       // TODO: show sound if attribute defined
 
       return {
         connectedCallback: (): void => {
-          updateAutoclose();
+          updateAutohide();
         },
         attributeChangedCallback: {
-          "autoclose": updateAutoclose
+          "autohide": updateAutohide
         },
         properties: {
-          "open": {
-            value: open
+          "show": {
+            value: show
           }
         }
       };
