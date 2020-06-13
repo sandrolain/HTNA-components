@@ -2,14 +2,33 @@ import { action } from "@storybook/addon-actions";
 import HtnaNumberRange from "../src/form/HtnaNumberRange.ts";
 import HtnaDateRange from "../src/form/HtnaDateRange.ts";
 import { HtnaLabelCheckbox, HtnaLabelRadio } from "../src/form/HtnaLabelCheckebox.ts";
+import { HtnaDangerButton } from "../src/form/HtnaDangerButton";
 
-HtnaNumberRange.register();
-HtnaDateRange.register();
-HtnaLabelCheckbox.register();
-HtnaLabelRadio.register();
+try {
+  HtnaNumberRange.register();
+  HtnaDateRange.register();
+  HtnaLabelCheckbox.register();
+  HtnaLabelRadio.register();
+  HtnaDangerButton.register();
+} catch(e) {
+  window.location.reload();
+}
 
 export default {
   title: "Form"
+};
+
+export const DangerButton = () => {
+  const form = document.createElement("form");
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    console.log("submit", e);
+  });
+  const btn = document.createElement("htna-danger-button");
+  btn.innerHTML = `<span slot="normal">Click me!</span><span slot="warning">Sure?</span>`;
+  btn.addEventListener("click", action("click"));
+  form.appendChild(btn);
+  return form;
 };
 
 export const NumberRange = () => {

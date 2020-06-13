@@ -3,10 +3,15 @@ import typescript from "rollup-plugin-typescript2";
 import { terser } from "rollup-plugin-terser";
 import del from "rollup-plugin-delete";
 
+// TODO: import external CSS as string: https://github.com/atomicojs/rollup-plugin-import-css
+
 export default [
   {
     input: "src/index.ts",
     output: {
+      globals: {
+        "htna": "htna"
+      },
       file: "dist/umd/index.js",
       format: "umd",
       name: "htnaComponents",
@@ -32,13 +37,14 @@ export default [
     input: {
       index: "src/index.ts"
     },
-    output: [
-      {
-        dir: "./dist/esm",
-        format: "esm",
-        sourcemap: true
-      }
-    ],
+    output: {
+      globals: {
+        "htna": "htna"
+      },
+      dir: "./dist/esm",
+      format: "esm",
+      sourcemap: true
+    },
     // preserveModules: true,
     // external: ["htna"],
     plugins: [
