@@ -1,18 +1,23 @@
 import { action } from "@storybook/addon-actions";
+import centered from "@storybook/addon-centered/html";
+
 import HtnaTabs from "../src/display/HtnaTabs.ts";
 import HtnaToast from "../src/display/HtnaToast.ts";
 import HtnaTooltip from "../src/display/HtnaTooltip.ts";
+import HtnaCopyToClipboard from "../src/display/HtnaCopyToClipboard.ts";
 
 try {
 HtnaTabs.register();
 HtnaToast.register();
 HtnaTooltip.register();
+HtnaCopyToClipboard.register();
 } catch(e) {
   window.location.reload();
 }
 
 export default {
-  title: "Display"
+  title: "Display",
+  decorators: [centered]
 };
 
 export const Tabs = () => {
@@ -108,4 +113,13 @@ export const Tooltip = () => {
   $f.appendChild(ttip);
 
   return $f;
+};
+
+
+export const CopyToClipboard = () => {
+  const el = document.createElement("htna-copytoclipboard");
+  el.setAttribute("value", "text to copy");
+  el.innerHTML = "<button>Copy!</button>";
+  el.addEventListener("copied", action("copied"));
+  return el;
 };

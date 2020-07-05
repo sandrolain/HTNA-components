@@ -2,8 +2,12 @@ import { action } from "@storybook/addon-actions";
 import HtnaOverlay from "../src/viewport/HtnaOverlay.ts";
 import HtnaModalOverlay from "../src/viewport/HtnaModalOverlay.ts";
 
-HtnaOverlay.register();
-HtnaModalOverlay.register();
+try {
+  HtnaOverlay.register();
+  HtnaModalOverlay.register();
+} catch(e) {
+  window.location.reload();
+}
 
 export default {
   title: "Viewport"

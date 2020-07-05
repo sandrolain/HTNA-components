@@ -3,6 +3,7 @@ import HtnaNumberRange from "../src/form/HtnaNumberRange.ts";
 import HtnaDateRange from "../src/form/HtnaDateRange.ts";
 import { HtnaLabelCheckbox, HtnaLabelRadio } from "../src/form/HtnaLabelCheckebox.ts";
 import { HtnaDangerButton } from "../src/form/HtnaDangerButton";
+import { HTNADynFieldset } from "../src/form/HtnaDynFieldset";
 
 try {
   HtnaNumberRange.register();
@@ -10,6 +11,7 @@ try {
   HtnaLabelCheckbox.register();
   HtnaLabelRadio.register();
   HtnaDangerButton.register();
+  HTNADynFieldset.register();
 } catch(e) {
   window.location.reload();
 }
@@ -46,7 +48,7 @@ export const DateRange = () => {
 };
 
 export const LabelCheckbox = () => {
-  const $f = document.createElement("form");
+  const $f = document.createDocumentFragment();
   $f.addEventListener("submit", (e) => {
     e.preventDefault();
     const data = new FormData($f);
@@ -71,5 +73,49 @@ export const LabelCheckbox = () => {
     $f.appendChild(document.createElement("br"));
   }
   $f.insertAdjacentHTML("beforeend", `<button type="submit">Submit</button>`);
+  return $f;
+};
+
+
+export const DynFieldset = () => {
+  const $f = document.createElement("form");
+  const fs = document.createElement("htna-dyn-fieldset");
+
+  fs.addField({
+    label: "Text Input",
+    name: "txt",
+    tagName: "input",
+    attributes: {
+      type: "text"
+    }
+  });
+
+  fs.addField({
+    label: "Date Input",
+    name: "dt",
+    tagName: "input",
+    attributes: {
+      type: "date"
+    }
+  });
+
+  fs.addField({
+    label: "Number Range",
+    name: "nr",
+    tagName: "htna-number-range",
+    value: [10, 20]
+  });
+
+  fs.render();
+
+  $f.appendChild(fs);
+
+  const btn = document.createElement("button");
+  btn.type = "button";
+  btn.innerHTML = "Get Value";
+  btn.addEventListener("click", () => {
+    console.log(fs.getValue());
+  });
+  $f.appendChild(btn);
   return $f;
 };
