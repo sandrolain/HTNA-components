@@ -18,16 +18,18 @@ export const HtnaModalOverlay = create({
     height: 100%;
     overflow: auto;
   }
+  #overlay.blurred {
+    backdrop-filter: blur(4px);
+  }
   #overlay-wrp {
     min-width: 100%;
     min-height: 100%;
-    outline: 1px dotted #FF00FF;
     display: flex;
     align-items: center;
     justify-content: center;
   }
   #overlay-cnt {
-    outline: 1px dotted #FF00FF;
+
   }
   `,
   attributesSchema: {
