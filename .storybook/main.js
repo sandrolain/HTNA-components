@@ -7,12 +7,11 @@
 // https://www.npmjs.com/package/@storybook/web-components
 
 module.exports = {
-  stories: ['../stories/**/*.stories.(js|mdx)'],
+  stories: ['../stories/**/*.stories.(ts|js|mdx)'],
   addons: [
     "@storybook/addon-actions/register",
     "@storybook/addon-backgrounds",
-    // "@storybook/addon-backgrounds"
-    // "@storybook/addon-console"
+    "@storybook/addon-docs"
   ],
   webpackFinal: async config => {
     config.module.rules.push({

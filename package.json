@@ -38,6 +38,10 @@
     "library"
   ],
   "license": "MIT",
+  "peerDependencies": {
+    "htna": "git+https://github.com/sandrolain/HTNA.git#develop",
+    "htna-tools": "git+https://github.com/sandrolain/HTNA-tools.git#develop"
+  },
   "dependencies": {
     "htna": "git+https://github.com/sandrolain/HTNA.git#develop",
     "htna-tools": "git+https://github.com/sandrolain/HTNA-tools.git#develop"
@@ -47,6 +51,7 @@
     "@rollup/plugin-node-resolve": "^7.1.3",
     "@storybook/addon-actions": "^5.3.18",
     "@storybook/addon-backgrounds": "^5.3.19",
+    "@storybook/addon-centered": "^5.3.19",
     "@storybook/addon-console": "^1.2.1",
     "@storybook/addon-docs": "^5.3.19",
     "@storybook/html": "^5.3.18",
@@ -63,6 +68,7 @@
     "open-cli": "^6.0.1",
     "rollup": "^2.7.6",
     "rollup-plugin-delete": "^1.2.0",
+    "rollup-plugin-peer-deps-external": "^2.2.3",
     "rollup-plugin-terser": "^5.3.0",
     "rollup-plugin-typescript2": "^0.27.0",
     "ts-jest": "^25.4.0",

@@ -1,3 +1,4 @@
+import peerDepsExternal from "rollup-plugin-peer-deps-external";
 import resolve from "@rollup/plugin-node-resolve";
 import typescript from "rollup-plugin-typescript2";
 import { terser } from "rollup-plugin-terser";
@@ -54,6 +55,7 @@ export default [
       typescript({
         typescript: require("typescript")
       }),
+      peerDepsExternal(),
       resolve(),
       terser({
         output: {
