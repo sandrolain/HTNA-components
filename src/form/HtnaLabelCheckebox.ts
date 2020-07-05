@@ -4,7 +4,6 @@ import { create, AttributeTypes, HTNAElementConfig } from "htna";
 const definition: HTNAElementConfig = {
   elementName: "htna-label-checkbox",
   formInput: "checkbox",
-  mode: "open",
   render: () => /*html*/`<label id="cnt"><input type="checkbox" id="input" /><span id="label"><slot name="label"></slot></span></label>`,
   style: /*css*/`
 :host {
