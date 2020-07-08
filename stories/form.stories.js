@@ -48,7 +48,7 @@ export const DateRange = () => {
 };
 
 export const LabelCheckbox = () => {
-  const $f = document.createDocumentFragment();
+  const $f = document.createElement("form");
   $f.addEventListener("submit", (e) => {
     e.preventDefault();
     const data = new FormData($f);

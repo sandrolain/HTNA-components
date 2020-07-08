@@ -1,5 +1,9 @@
 import { action } from "@storybook/addon-actions";
 import centered from "@storybook/addon-centered/html";
+import "goodnight-css/dist/vars.css";
+import "goodnight-css/dist/base.css";
+import "goodnight-css/dist/button.css";
+import "goodnight-css/dist/toast.css";
 
 import HtnaTabs from "../src/display/HtnaTabs.ts";
 import HtnaToast from "../src/display/HtnaToast.ts";
@@ -23,17 +27,14 @@ export default {
 export const Tabs = () => {
   const html =  /*html*/`
   <style>
-    [slot="tab"].active {
-      font-weight: bold;
-    }
     [slot="content"].inactive {
       display: none
     }
   </style>
   <htna-tabs>
-    <button slot="tab">Tab 1</button>
-    <button slot="tab">Tab 2</button>
-    <button slot="tab">Tab 3</button>
+    <button class="btn btn-tab primary" slot="tab">Tab 1</button>
+    <button class="btn btn-tab primary" slot="tab">Tab 2</button>
+    <button class="btn btn-tab primary" slot="tab">Tab 3</button>
     <div slot="content">Cnt 1</div>
     <div slot="content">Cnt 2</div>
     <div slot="content">Cnt 3</div>
@@ -44,20 +45,12 @@ export const Tabs = () => {
 
 export const Toast = () => {
   const $f = document.createDocumentFragment();
-  const style = document.createElement("style");
-  style.innerHTML = /*css*/`
-  htna-toast {
-    background: #CCCCCC;
-    padding: 1em;
-  }
-  `;
-  $f.appendChild(style);
 
 
   const position = document.createElement("select");
   position.innerHTML = /*html*/`
-    <option value="top-left">top-left</option>
     <option value="top-right">top-right</option>
+    <option value="top-left">top-left</option>
     <option value="top-center">top-center</option>
     <option value="bottom-left">bottom-left</option>
     <option value="bottom-right">bottom-right</option>
@@ -66,6 +59,8 @@ export const Toast = () => {
   $f.appendChild(position);
 
   const btn = document.createElement("button");
+  btn.classList.add("btn");
+  btn.classList.add("primary");
   btn.innerText = "Show";
   btn.addEventListener("click", () => {
     const toast = document.createElement("htna-toast");
@@ -75,7 +70,8 @@ export const Toast = () => {
     toast.setAttribute("hide-style-from", "transform: scale(1)");
     toast.setAttribute("hide-style-to", "transform: scale(0)");
     toast.setAttribute("autohide", "3000");
-    toast.innerHTML = "Hello World!";
+    const color = ["primary", "accent", "critical"].sort(() => Math.random() - 0.5)[0];
+    toast.innerHTML = /*html*/`<div class="toast ${color}"><div class="toast-body">Hello World!</div></div>`;
     btn.parentNode.appendChild(toast);
     toast.show();
   });
@@ -99,6 +95,8 @@ export const Tooltip = () => {
 
 
   const btn = document.createElement("button");
+  btn.classList.add("btn");
+  btn.classList.add("primary");
   btn.setAttribute("id", "test-btn");
   btn.innerText = "Button";
   $f.appendChild(btn);

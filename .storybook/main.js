@@ -23,6 +23,12 @@ module.exports = {
       ],
     });
     config.resolve.extensions.push('.ts', '.tsx');
+
+    // config.module.rules.push({
+    //   test: /\.css$/i,
+    //   use: ['css-loader'],
+    // });
+
     return config;
   },
 };
