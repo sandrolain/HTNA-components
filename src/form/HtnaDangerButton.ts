@@ -1,13 +1,19 @@
 import { HTNAElement, HTNAElementConfig } from "htna";
+import cssVars from "goodnight-css/dist/vars.css";
+import cssBase from "goodnight-css/dist/base.css";
+import cssButton from "goodnight-css/dist/button.css";
 
 export class HtnaDangerButton extends HTNAElement {
   static config: HTNAElementConfig = {
     elementName: "htna-danger-button",
-    render: () => /*html*/`<button type="submit" part="button"><slot name="normal"></slot></button>`,
+    render: () => /*html*/`<button class="btn" type="submit" part="button"><slot name="normal"></slot></button>`,
     style: /*css*/`
 :host {
   display: contents;
 }
+${cssVars}
+${cssBase}
+${cssButton}
     `,
     attributesSchema: {
       "warning": {

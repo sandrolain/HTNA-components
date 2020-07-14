@@ -1,10 +1,5 @@
 import { action } from "@storybook/addon-actions";
 import centered from "@storybook/addon-centered/html";
-import "goodnight-css/dist/vars.css";
-import "goodnight-css/dist/base.css";
-import "goodnight-css/dist/button.css";
-import "goodnight-css/dist/toast.css";
-
 import HtnaTabs from "../src/display/HtnaTabs.ts";
 import HtnaToast from "../src/display/HtnaToast.ts";
 import HtnaTooltip from "../src/display/HtnaTooltip.ts";
@@ -115,9 +110,16 @@ export const Tooltip = () => {
 
 
 export const CopyToClipboard = () => {
+  const $f = document.createDocumentFragment();
+  const input = document.createElement("input");
+  input.value = "text to copy";
+  input.addEventListener("change", () => {
+    el.setAttribute("value", input.value);
+  });
+  $f.appendChild(input);
   const el = document.createElement("htna-copytoclipboard");
-  el.setAttribute("value", "text to copy");
-  el.innerHTML = "<button>Copy!</button>";
+  el.innerHTML = `<button class="btn">Copy!</button>`;
   el.addEventListener("copied", action("copied"));
-  return el;
+  $f.appendChild(el);
+  return $f;
 };

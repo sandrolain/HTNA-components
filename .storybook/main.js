@@ -6,6 +6,8 @@
 // https://www.npmjs.com/package/@storybook/addon-backgrounds
 // https://www.npmjs.com/package/@storybook/web-components
 
+const path = require("path");
+
 module.exports = {
   stories: ['../stories/**/*.stories.(ts|js|mdx)'],
   addons: [
@@ -14,20 +16,32 @@ module.exports = {
     "@storybook/addon-docs"
   ],
   webpackFinal: async config => {
+
     config.module.rules.push({
       test: /\.(ts|tsx)$/,
-      use: [
-        {
-          loader: require.resolve('ts-loader'),
-        }
-      ],
+      use: [{ loader: require.resolve('ts-loader') }],
     });
+
     config.resolve.extensions.push('.ts', '.tsx');
 
-    // config.module.rules.push({
-    //   test: /\.css$/i,
-    //   use: ['css-loader'],
-    // });
+    config.module.rules = config.module.rules.filter(
+      rule => rule.test.toString() !== '/\\.css$/'
+    );
+
+    config.module.rules.push({
+      test: /\.css$/,
+      use: [
+        {
+          loader: 'to-string-loader',
+        },
+        {
+          loader: 'css-loader',
+          options: {
+            modules: false
+          },
+        }
+      ]
+    });
 
     return config;
   },
