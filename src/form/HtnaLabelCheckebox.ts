@@ -1,4 +1,4 @@
-import { AttributeTypes, HTNAElementConfig, HTNAElement } from "htna";
+import { AttributeTypes, HTNAInputElementConfig, HTNAInputElement } from "htna";
 
 import cssVars from "goodnight-css/dist/vars.css";
 import cssBase from "goodnight-css/dist/base.css";
@@ -6,9 +6,9 @@ import cssInput from "goodnight-css/dist/input.css";
 import cssSelectable from "goodnight-css/dist/selectable.css";
 
 
-const definition: HTNAElementConfig = {
+const definition: HTNAInputElementConfig = {
   elementName: "htna-label-checkbox",
-  formInput: "checkbox",
+  formInputType: "checkbox",
   render: () => /*html*/`<label id="cnt" class="selectable"><input type="checkbox" id="input" /><span id="label"><slot name="label"></slot></span></label>`,
   style: /*css*/`
 :host {
@@ -71,15 +71,15 @@ const definition: HTNAElementConfig = {
   }
 };
 
-export class HtnaLabelCheckbox extends HTNAElement {
-  static config: HTNAElementConfig = definition;
+export class HtnaLabelCheckbox extends HTNAInputElement {
+  static config: HTNAInputElementConfig = definition;
 }
 
-export class HtnaLabelRadio extends HTNAElement {
-  static config: HTNAElementConfig = {
+export class HtnaLabelRadio extends HTNAInputElement {
+  static config: HTNAInputElementConfig = {
     ...definition,
     elementName: "htna-label-radio",
-    formInput: "radio",
+    formInputType: "radio",
     render: () => /*html*/`<label id="cnt" class="selectable"><input type="radio" id="input" /><span id="label"><slot name="label"></slot></span></label>`
   };
 }
